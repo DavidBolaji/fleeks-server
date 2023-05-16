@@ -5,5 +5,6 @@ const authRouter: Router = express.Router();
 
 authRouter.post("/signup", UserController.prototype.signup);
 authRouter.post("/signin", UserController.prototype.signin);
+authRouter.get("/signout", UserController.prototype.signout);
 
 export default authRouter;
