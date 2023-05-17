@@ -26,7 +26,6 @@ export const globalErrorHandler = (app: Application) => {
     ) => {
       console.log(error);
       if (error instanceof customError) {
-        console.log("dheeu");
         return res.status(error.statusCode).json(error.serializeErrors());
       }
       next();

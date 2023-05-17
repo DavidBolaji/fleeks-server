@@ -15,6 +15,8 @@ const userSchema: Schema = new Schema(
     phone: { type: String },
     email: { type: String, trim: true, unique: true },
     isAdmin: { type: Boolean, default: false },
+    passwordResetToken: { type: String, default: "" },
+    passwordResetExpires: { type: Number },
   },
   {
     timestamps: true,
@@ -24,6 +26,7 @@ const userSchema: Schema = new Schema(
 userSchema.pre("save", async function (this: IUserDocument, next: () => void) {
   const hashPassword: string = await hash(this.password as string, HASH_ROUNDS);
   this.password = hashPassword;
+  console.log(this.password);
   next();
 });
 
