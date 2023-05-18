@@ -7,9 +7,10 @@ class ResetPasswordTemplate {
     return ejs.render(
       fs.readFileSync(__dirname + "/reset-password.ejs", "utf8"),
       {
-        username: "",
+        username,
         email: username,
-        image_url: "",
+        image_url:
+          "https://res.cloudinary.com/dpi44zxlw/image/upload/v1684359562/logo.png",
         date: moment().format("DD/MM/YY HH:mm:ss"),
       }
     );

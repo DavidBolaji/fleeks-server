@@ -8,7 +8,8 @@ class ForgotPasswordTemplate {
       {
         username,
         resetLink,
-        image_url: "",
+        image_url:
+          "https://res.cloudinary.com/dpi44zxlw/image/upload/v1684359562/logo.png",
       }
     );
   }
