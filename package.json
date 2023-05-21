@@ -47,7 +47,6 @@
     "redis": "^4.6.6",
     "socket.io": "^4.6.1",
     "swagger-stats": "^0.99.5",
-    "typescript": "^5.0.4",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
@@ -67,6 +66,7 @@
     "@types/uuid": "^9.0.1",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.6",
-    "tsconfig-paths": "^4.2.0"
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.0.4"
   }
 }
