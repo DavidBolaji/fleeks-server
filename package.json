@@ -4,7 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon ./build/app.js",
+    "start": "pm2 start ./build/src/app.js --attach --watch -i 2",
+    "start:dev": "node ./build/src/app.js",
+    "stop": "pm2 stop all",
+    "delete": "pm2 delete all",
     "dev": "nodemon -r tsconfig-paths/register src/app.ts",
     "build": "tsc -p ."
   },
@@ -19,6 +22,7 @@
     "@types/jsonwebtoken": "^9.0.2",
     "@types/lodash": "^4.14.194",
     "@types/moment": "^2.13.0",
+    "@types/swagger-stats": "^0.95.8",
     "bcryptjs": "^2.4.3",
     "bull": "^4.10.4",
     "bunyan": "^1.8.15",
@@ -42,6 +46,7 @@
     "nodemailer": "^6.9.2",
     "redis": "^4.6.6",
     "socket.io": "^4.6.1",
+    "swagger-stats": "^0.99.5",
     "typescript": "^5.0.4",
     "uuid": "^9.0.0"
   },
@@ -58,8 +63,10 @@
     "@types/hpp": "^0.2.2",
     "@types/nodemailer": "^6.4.7",
     "@types/redis": "^4.0.11",
+    "@types/redis-info": "^3.0.0",
     "@types/uuid": "^9.0.1",
     "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.6",
     "tsconfig-paths": "^4.2.0"
   }
 }

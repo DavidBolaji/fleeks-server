@@ -2,8 +2,8 @@ import Logger from "bunyan";
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 import sendGridMail from "@sendgrid/mail";
-import createLoggerCustom from "src/utils/logger";
-import { BadRequestError } from "src/utils/error/error-handler";
+import createLoggerCustom from "../../utils/logger";
+import { BadRequestError } from "../../utils/error/error-handler";
 
 interface IMailOptions {
   from: string;
@@ -19,15 +19,17 @@ const sPass: any = process.env.SENDER_PASSWORD;
 sendGridMail.setApiKey(key);
 
 class MailTransport {
-  public sendEmail(
+  public async sendEmail(
     rEmail: string,
     subject: string,
     body: string
   ): Promise<void> {
     if (process.env.ENV === "dev") {
+      console.log("dev");
       return this.devEmailSender(rEmail, subject, body);
     }
-    return this.prodEmailSender(rEmail, subject, body);
+    console.log("prod");
+    return await this.prodEmailSender(rEmail, subject, body);
   }
 
   private async devEmailSender(

@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import { IOrderDocument } from "../interfaces/order.interface";
 import { OrderModel } from "../models/order.model";
 import Logger from "bunyan";
-import createLoggerCustom from "src/utils/logger";
+import createLoggerCustom from "../../../utils/logger";
 
 const log: Logger = createLoggerCustom("order.service");
 

@@ -2,9 +2,9 @@ import { BaseCache } from "./base.cache";
 import Logger from "bunyan";
 
 import { ObjectId } from "mongodb";
-import { IUserDocument } from "src/features/auth/interfaces/user.interface";
-import { ServerError } from "src/utils/error/error-handler";
-import createLoggerCustom from "src/utils/logger";
+import { IUserDocument } from "../../features/auth/interfaces/user.interface";
+import createLoggerCustom from "../../utils/logger";
+import { ServerError } from "../../utils/error/error-handler";
 
 const log: Logger = createLoggerCustom("userCache");
 

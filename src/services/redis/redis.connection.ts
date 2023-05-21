@@ -1,6 +1,6 @@
 import Logger from "bunyan";
 import { BaseCache } from "./base.cache";
-import createLoggerCustom from "src/utils/logger";
+import createLoggerCustom from "../../utils/logger";
 
 const log: Logger = createLoggerCustom("redisConnection");
 

@@ -1,6 +1,6 @@
 import Logger from "bunyan";
 import { createClient } from "redis";
-import createLoggerCustom from "src/utils/logger";
+import createLoggerCustom from "../../utils/logger";
 
 export type RedisClient = ReturnType<typeof createClient>;
 

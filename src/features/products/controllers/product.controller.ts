@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
-import { joiValidation } from "src/decorator";
-import { productSchema } from "../schemas/product.schema";
-import { ObjectId } from "mongodb";
-import { Helpers } from "src/utils/helpers";
 import HTTP_STATUS from "http-status-codes";
-import { productService } from "../services/product.service";
-import { productCache } from "src/services/redis/product.cache";
-import createLoggerCustom from "src/utils/logger";
 import Logger from "bunyan";
-import { IUserDocument } from "src/features/auth/interfaces/user.interface";
+
+import { productSchema } from "../schemas/product.schema";
+import { productService } from "../services/product.service";
+import createLoggerCustom from "../../../utils/logger";
+import { joiValidation } from "../../../decorator/decorator";
+import { Helpers } from "../../../utils/helpers";
+import { productCache } from "../../../services/redis/product.cache";
 
 const log: Logger = createLoggerCustom("Product.controller");
 

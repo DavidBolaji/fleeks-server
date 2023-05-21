@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { ObjectSchema } from "joi";
-import { ValidationError } from "src/utils/error/error-handler";
+import { ValidationError } from "../utils/error/error-handler";
 
 interface IJoiDecorator {
   (target: any, key: string, descriptor: PropertyDescriptor): void;

@@ -1,7 +1,8 @@
 import { DoneCallback, Job } from "bull";
 import Logger from "bunyan";
-import { userService } from "src/features/auth/services/user.services";
-import createLoggerCustom from "src/utils/logger";
+import { userService } from "../../features/auth/services/user.services";
+import createLoggerCustom from "../../utils/logger";
+
 const log: Logger = createLoggerCustom("worker");
 
 class UserWorker {

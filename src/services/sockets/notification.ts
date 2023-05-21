@@ -1,6 +1,6 @@
 import Logger from "bunyan";
 import { Server, Socket } from "socket.io";
-import createLoggerCustom from "src/utils/logger";
+import createLoggerCustom from "../../utils/logger";
 
 let socIOObjNotHan: Server;
 

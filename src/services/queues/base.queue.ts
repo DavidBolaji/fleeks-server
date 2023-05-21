@@ -3,7 +3,7 @@ import Logger from "bunyan";
 import { createBullBoard } from "@bull-board/api";
 import { BullAdapter } from "@bull-board/api/bullAdapter";
 import { ExpressAdapter } from "@bull-board/express";
-import createLoggerCustom from "src/utils/logger";
+import createLoggerCustom from "../../utils/logger";
 
 {/* prettier-ignore */}
 // type IBaseJobData = IAuthJob;

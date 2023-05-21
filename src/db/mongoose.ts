@@ -1,14 +1,16 @@
 import Logger from "bunyan";
 import mongoose from "mongoose";
-import { redisConnection } from "src/services/redis/redis.connection";
+import { redisConnection } from "../services/redis/redis.connection";
+import createLoggerCustom from "../utils/logger";
 
-import createLoggerCustom from "src/utils/logger";
+// import dotenv from "dotenv";
+// dotenv.config();
 
 let server: any = process.env.MONGODB_URI_LOCAL;
 let log: Logger = createLoggerCustom("moongoose");
 
 if (process.env.ENV === "prod") {
-  server = process.env.MONGO_URL_PROD;
+  server = process.env.MONGODB_URI_PROD;
 }
 
 export default () => {

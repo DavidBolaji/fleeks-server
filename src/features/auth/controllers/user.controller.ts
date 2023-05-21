@@ -1,23 +1,27 @@
 import Logger from "bunyan";
 import { Request, Response } from "express";
-import { joiValidation } from "src/decorator";
-import createLoggerCustom from "src/utils/logger";
-import { signupSchema } from "../schema/signup.schema";
-import { userQueue } from "src/services/queues/user.queue";
-import { userService } from "../services/user.services";
 import HTTP_STATUS from "http-status-codes";
-import { ObjectId } from "mongodb";
-import { Helpers } from "src/utils/helpers";
-import { userCache } from "src/services/redis/user.cache";
 import jwt from "jsonwebtoken";
-import { signinSchema } from "../schema/signin.schema";
-import { forgotSchema } from "../schema/forgot.schema";
 import crypto from "crypto";
-import { forgotPasswordTemplate } from "src/services/emails/template/forgot-password/forgot-password";
-import { emailQueue } from "src/services/queues/email.queue";
 import { compare } from "bcryptjs";
-import { resetPasswordTemplate } from "src/services/emails/template/reset-password/reset-password";
+import { ObjectId } from "mongodb";
+
+import createLoggerCustom from "../../../utils/logger";
+import { signupSchema } from "../schema/signup.schema";
+import { joiValidation } from "../../../decorator/decorator";
+import { signinSchema } from "../schema/signin.schema";
+import { userService } from "../services/user.services";
+
+import { forgotSchema } from "../schema/forgot.schema";
+
+import { forgotPasswordTemplate } from "../../../services/emails/template/forgot-password/forgot-password";
+import { emailQueue } from "../../../services/queues/email.queue";
 import { resetSchema } from "../schema/reset.schema";
+import { resetPasswordTemplate } from "../../../services/emails/template/reset-password/reset-password";
+import { Helpers } from "../../../utils/helpers";
+import { userCache } from "../../../services/redis/user.cache";
+import { userQueue } from "../../../services/queues/user.queue";
+import { mailTransport } from "../../../services/emails/mail.transport";
 
 const log: Logger = createLoggerCustom("user.controller");
 
@@ -124,11 +128,13 @@ export class UserController {
       resetLink
     );
 
-    emailQueue.addEmailJob("forgotPasswordEmail", {
-      rEmail: req.body.email,
-      subject: "Reset your password",
-      body,
-    });
+    await mailTransport.sendEmail(req.body.email, "Reset your password", body);
+
+    // emailQueue.addEmailJob("forgotPasswordEmail", {
+    //   rEmail: req.body.email,
+    //   subject: "Reset your password",
+    //   body,
+    // });
 
     res.status(HTTP_STATUS.OK).json({ message: "Password reset email sent" });
   }
@@ -153,11 +159,16 @@ export class UserController {
       userExists[0].email!
     );
 
-    emailQueue.addEmailJob("resetPasswordEmail", {
-      rEmail: userExists[0].email!,
-      subject: "Password Reset Confirmation",
-      body,
-    });
+    // emailQueue.addEmailJob("resetPasswordEmail", {
+    //   rEmail: userExists[0].email!,
+    //   subject: "Password Reset Confirmation",
+    //   body,
+    // });
+    await mailTransport.sendEmail(
+      userExists[0].email!,
+      "Password Reset Confirmation",
+      body
+    );
 
     res.status(HTTP_STATUS.OK).json({ message: "Password change successfull" });
   }

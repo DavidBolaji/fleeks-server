@@ -1,6 +1,5 @@
 import express, { Router } from "express";
 import { OrderController } from "../controllers/order.controller";
-import { authMiddleware } from "src/middlewares/auth.middleware";
 
 const orderRouter: Router = express.Router();
 

@@ -1,6 +1,5 @@
 import express, { Router } from "express";
 import { ProductController } from "../controllers/product.controller";
-import { authMiddleware } from "src/middlewares/auth.middleware";
 
 const productRouter: Router = express.Router();
 

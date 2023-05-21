@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { Document } from "mongoose";
-import { IProductDocument } from "src/features/products/interfaces/product.interface";
+import { IProductDocument } from "../../products/interfaces/product.interface";
 
 export interface IOrderDocument extends Document {
   user: ObjectId;

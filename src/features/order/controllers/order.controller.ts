@@ -1,8 +1,9 @@
 import { orderSchema } from "../schemas/order.schema";
 import HTTP_STATUS from "http-status-codes";
-import { joiValidation } from "src/decorator";
+
 import { Request, Response } from "express";
 import { orderService } from "../services/order.service";
+import { joiValidation } from "../../../decorator/decorator";
 
 export class OrderController {
   @joiValidation(orderSchema)

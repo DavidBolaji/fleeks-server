@@ -1,8 +1,8 @@
 import { DoneCallback, Job } from "bull";
 import Logger from "bunyan";
 
-import createLoggerCustom from "src/utils/logger";
 import { mailTransport } from "../emails/mail.transport";
+import createLoggerCustom from "../../utils/logger";
 const log: Logger = createLoggerCustom("worker");
 
 class EmailWorker {

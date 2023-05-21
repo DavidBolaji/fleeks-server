@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { IUserDocument } from "src/features/auth/interfaces/user.interface";
-import { UserModel } from "src/features/auth/models/user.model";
-import { NotAuthorizedError } from "src/utils/error/error-handler";
+import { NotAuthorizedError } from "../utils/error/error-handler";
+import { IUserDocument } from "../features/auth/interfaces/user.interface";
+import { UserModel } from "../features/auth/models/user.model";
 
 export const authMiddleware = async (
   req: Request,

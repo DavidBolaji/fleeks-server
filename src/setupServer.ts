@@ -17,6 +17,7 @@ import helmet from "helmet";
 import compression from "compression";
 import http from "http";
 import cookieSession from "cookie-session";
+import apiStats from "swagger-stats";
 import appRoutes from "./routes";
 
 import Logger from "bunyan";
@@ -79,6 +80,11 @@ export class FavServer {
     // limit json response
     app.use(json({ limit: "50mb" }));
     app.use(urlencoded({ extended: true, limit: "50mb" }));
+    app.use(
+      apiStats.getMiddleware({
+        uriPath: "/api-stats",
+      })
+    );
   }
 
   private routeMiddleware(app: Application): void {

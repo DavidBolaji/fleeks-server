@@ -1,11 +1,8 @@
+import { IProductDocument } from "../../features/products/interfaces/product.interface";
+import { ServerError } from "../../utils/error/error-handler";
+import createLoggerCustom from "../../utils/logger";
 import { BaseCache } from "./base.cache";
 import Logger from "bunyan";
-
-import { ObjectId } from "mongodb";
-import { IProductDocument } from "src/features/products/interfaces/product.interface";
-
-import { ServerError } from "src/utils/error/error-handler";
-import createLoggerCustom from "src/utils/logger";
 
 const log: Logger = createLoggerCustom("productCache");
 
