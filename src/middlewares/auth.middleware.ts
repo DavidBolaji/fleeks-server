@@ -9,6 +9,7 @@ export const authMiddleware = async (
   _res: Response,
   next: NextFunction
 ) => {
+  console.log(req.session?.jwt);
   if (!req.session?.jwt) throw new NotAuthorizedError("User not authorized");
   const secret: any = process.env.SECRET;
   try {

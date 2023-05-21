@@ -22,6 +22,7 @@ import appRoutes from "./routes";
 import Logger from "bunyan";
 import createLoggerCustom from "./utils/logger";
 import { IErrorResponse, customError } from "./utils/error/error-handler";
+import { SocketIONotificationHandler } from "./services/sockets/notification";
 
 const PORT = process.env.PORT || 8080;
 const log: Logger = createLoggerCustom("app");
@@ -144,5 +145,9 @@ export class FavServer {
     });
   }
 
-  private socketIOConnections(io: Server): void {}
+  private socketIOConnections(io: Server): void {
+    const notificationHandler: SocketIONotificationHandler =
+      new SocketIONotificationHandler(io);
+    notificationHandler.listen();
+  }
 }

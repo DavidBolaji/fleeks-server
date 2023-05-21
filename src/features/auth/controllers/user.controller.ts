@@ -46,10 +46,11 @@ export class UserController {
 
     const token: string = UserController.prototype.signupToken(_id);
     req.session = { jwt: token };
+
     //send result
     res.status(HTTP_STATUS.CREATED).json({
       message: "User created successfully",
-      data: { _id, uId, ...req.body, token },
+      data: { _id, uId, ...req.body },
     });
   }
 
@@ -70,8 +71,6 @@ export class UserController {
       user[0].password
     );
 
-    console.log(passwordMatch);
-
     if (!passwordMatch) {
       return res.status(HTTP_STATUS.NOT_FOUND).json({
         message: "Wrong email or password",
@@ -85,7 +84,7 @@ export class UserController {
 
     res.status(HTTP_STATUS.OK).json({
       message: "Sign in successfull",
-      data: { ...user[0]._doc, token },
+      data: { ...user[0]._doc },
     });
   }
 

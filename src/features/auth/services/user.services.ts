@@ -21,7 +21,9 @@ class UserService {
   }
 
   public async findAndReturnUser(email: string): Promise<IUserDocument[]> {
-    const user: IUserDocument[] | [] = await UserModel.find({ email });
+    const user: IUserDocument[] | [] = await UserModel.find({ email }).select(
+      "_id email uId email isAdmin fname password phone"
+    );
     return user;
   }
 
@@ -45,6 +47,7 @@ class UserService {
       passwordResetToken: token,
       passwordResetExpires: { $gt: Date.now() },
     });
+
     return user;
   }
 

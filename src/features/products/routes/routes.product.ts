@@ -1,13 +1,23 @@
 import express, { Router } from "express";
 import { ProductController } from "../controllers/product.controller";
+import { authMiddleware } from "src/middlewares/auth.middleware";
 
 const productRouter: Router = express.Router();
 
-productRouter.post("/product/create", ProductController.prototype.create);
+productRouter.post(
+  "/product/create",
+  // authMiddleware,
+  ProductController.prototype.create
+);
 productRouter.get("/product/read", ProductController.prototype.read);
-productRouter.put("/product/update/:id", ProductController.prototype.updateOne);
+productRouter.put(
+  "/product/update/:id",
+  // authMiddleware,
+  ProductController.prototype.updateOne
+);
 productRouter.delete(
   "/product/delete/:id",
+  // authMiddleware,
   ProductController.prototype.deleteOne
 );
 

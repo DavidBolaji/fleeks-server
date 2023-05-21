@@ -26,7 +26,6 @@ const userSchema: Schema = new Schema(
 userSchema.pre("save", async function (this: IUserDocument, next: () => void) {
   const hashPassword: string = await hash(this.password as string, HASH_ROUNDS);
   this.password = hashPassword;
-  console.log(this.password);
   next();
 });
 

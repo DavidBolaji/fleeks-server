@@ -6,17 +6,10 @@ class ProductService {
   public async create(doc: IProductDocument): Promise<void> {
     let id = new ObjectId();
 
-    console.log("first" + id);
-
-    console.log(doc);
-
-    console.log(typeof doc._id);
-
     if (typeof doc._id !== "undefined") {
       id = doc._id;
     }
 
-    console.log("productService " + id);
     const product = await ProductModel.findOneAndUpdate(
       { _id: id },
       { ...doc },

@@ -36,22 +36,23 @@ export class ProductController {
   public async read(req: Request, res: Response) {
     //check path in catch and //fetch product from cache
     log.info(req.url); //   /product/read
-    const prod: [] | IUserDocument[] = await productCache.getProductFromCache(
-      "/product/read"
-    );
+    // const prod: [] | IUserDocument[] = await productCache.getProductFromCache(
+    //   "/product/read"
+    // );
 
     // if in cache
-    if (prod?.length > 0) {
-      log.info("entered" + prod);
-      return res
-        .status(HTTP_STATUS.OK)
-        .json({ message: "fetch succesfull", data: prod });
-    }
+    // if (prod?.length > 0) {
+    //   log.info("entered" + prod);
+    //   return res
+    //     .status(HTTP_STATUS.OK)
+    //     .json({ message: "fetch succesfull", data: prod });
+    // }
 
     //if not in cache fetch fromm db
+    log.info("entered" + " here");
     const product = await productService.find();
     // and save in catch
-    productCache.saveProductToCache(req.url, product);
+    // productCache.saveProductToCache(req.url, product);
 
     //return it to user
     res
@@ -65,7 +66,6 @@ export class ProductController {
 
   public async deleteOne(req: Request, res: Response) {
     const { id } = req.params;
-    console.log("id: " + id);
 
     productService.delete(id);
     productCache.deleteProductFromCache("/product/read");
