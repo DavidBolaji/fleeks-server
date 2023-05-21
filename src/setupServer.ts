@@ -41,6 +41,15 @@ export class FavServer {
     this.routeMiddleware(this.app);
     this.globalErrorHandler(this.app);
     this.startServer(this.app);
+    process.on("uncaughtException", (err: any) => {
+      log.error(err);
+      process.exit(1);
+    });
+
+    process.on("unhandledRejection", (err: any) => {
+      log.error(err);
+      process.exit(2);
+    });
   }
 
   private securityMiddleware(app: Application): void {

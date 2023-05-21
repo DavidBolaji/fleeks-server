@@ -14,7 +14,6 @@ const log: Logger = createLoggerCustom("Product.controller");
 export class ProductController {
   @joiValidation(productSchema)
   public async create(req: Request, res: Response) {
-    log.info(req.url);
     let text = "created";
     if (req.body._id) {
       text = "updated";
@@ -34,7 +33,7 @@ export class ProductController {
 
   public async read(req: Request, res: Response) {
     //check path in catch and //fetch product from cache
-    log.info(req.url); //   /product/read
+    //  /   /product/read
     // const prod: [] | IUserDocument[] = await productCache.getProductFromCache(
     //   "/product/read"
     // );
@@ -48,7 +47,6 @@ export class ProductController {
     // }
 
     //if not in cache fetch fromm db
-    log.info("entered" + " here");
     const product = await productService.find();
     // and save in catch
     // productCache.saveProductToCache(req.url, product);

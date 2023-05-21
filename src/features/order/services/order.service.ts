@@ -15,8 +15,6 @@ class OrderService {
       id = doc._id;
     }
 
-    // log.info(doc);
-
     await OrderModel.findOneAndUpdate(
       { _id: id },
       { ...doc },

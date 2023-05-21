@@ -43,10 +43,13 @@ export class UserController {
     const uId = String(Helpers.generateId());
 
     //save user in cache
-    await userCache.saveUserToCache(_id, uId, { _id, ...req.body });
+    const value = { _id, uId, ...req.body };
+    // await userCache.saveUserToCache(_id, uId, { _id, ...req.body });
 
     //start worker to save user in db
-    userQueue.addUserJob("addUserToDB", { value: { _id, uId, ...req.body } });
+    // userQueue.addUserJob("addUserToDB", { value: { _id, uId, ...req.body } });
+
+    await userService.createUser(value);
 
     const token: string = UserController.prototype.signupToken(_id);
     req.session = { jwt: token };
