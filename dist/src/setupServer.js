@@ -56,7 +56,10 @@ class FavServer {
         let secretOne = process.env.SECRET_KEY_ONE;
         let secretTwo = process.env.SECRET_KEY_TWO;
         let environment = process.env.ENV;
-        let origin = process.env.FRONT_END_URL;
+        let origin = process.env.FRONT_END_URL_DEV;
+        if (process.env.ENV === "prod") {
+            origin = process.env.FRONT_END_URL_PROD;
+        }
         // setup cors
         app.use((0, cors_1.default)({
             origin,
