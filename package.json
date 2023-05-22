@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "pm2 start ./dist/src/app.js --attach --watch -i 2",
-    "start:dev": "node ./dist/src/app.js",
+    "start:dev": "pm2 start ./dist/src/app.js --attach --watch -i 2",
+    "start": "nodemon ./dist/src/app.js",
     "stop": "pm2 stop all",
     "delete": "pm2 delete all",
     "dev": "nodemon -r tsconfig-paths/register src/app.ts",
