@@ -125,13 +125,18 @@ export class UserController {
       Date.now() * 60 * 60 * 1000
     );
 
-    const resetLink = `${process.env.FRONT_END_URL}/reset/${randomToStrings}`;
-    const body: string = forgotPasswordTemplate.passwordResetTemplate(
-      req.body.email,
-      resetLink
-    );
+    let origin: any = process.env.FRONT_END_URL_DEV;
+    if (process.env.ENV === "prod") {
+      origin = process.env.FRONT_END_URL_PROD;
+    }
 
-    await mailTransport.sendEmail(req.body.email, "Reset your password", body);
+    const resetLink = `${origin}/reset/${randomToStrings}`;
+    // const body: string = forgotPasswordTemplate.passwordResetTemplate(
+    //   req.body.email,
+    //   resetLink
+    // );
+
+    // await mailTransport.sendEmail(req.body.email, "Reset your password", body);
 
     // emailQueue.addEmailJob("forgotPasswordEmail", {
     //   rEmail: req.body.email,
@@ -139,7 +144,10 @@ export class UserController {
     //   body,
     // });
 
-    res.status(HTTP_STATUS.OK).json({ message: "Password reset email sent" });
+    res.status(HTTP_STATUS.OK).json({
+      message: "Password reset email sent",
+      data: { link: resetLink },
+    });
   }
 
   @joiValidation(resetSchema)
@@ -158,20 +166,20 @@ export class UserController {
 
     await userService.updatePassword(userExists[0]._id, req.body.password);
 
-    const body: string = resetPasswordTemplate.passwordResetTemplate(
-      userExists[0].email!
-    );
+    // const body: string = resetPasswordTemplate.passwordResetTemplate(
+    //   userExists[0].email!
+    // );
 
     // emailQueue.addEmailJob("resetPasswordEmail", {
     //   rEmail: userExists[0].email!,
     //   subject: "Password Reset Confirmation",
     //   body,
     // });
-    await mailTransport.sendEmail(
-      userExists[0].email!,
-      "Password Reset Confirmation",
-      body
-    );
+    // await mailTransport.sendEmail(
+    //   userExists[0].email!,
+    //   "Password Reset Confirmation",
+    //   body
+    // );
 
     res.status(HTTP_STATUS.OK).json({ message: "Password change successfull" });
   }

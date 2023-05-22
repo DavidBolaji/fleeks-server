@@ -33,11 +33,8 @@ const decorator_1 = require("../../../decorator/decorator");
 const signin_schema_1 = require("../schema/signin.schema");
 const user_services_1 = require("../services/user.services");
 const forgot_schema_1 = require("../schema/forgot.schema");
-const forgot_password_1 = require("../../../services/emails/template/forgot-password/forgot-password");
 const reset_schema_1 = require("../schema/reset.schema");
-const reset_password_1 = require("../../../services/emails/template/reset-password/reset-password");
 const helpers_1 = require("../../../utils/helpers");
-const mail_transport_1 = require("../../../services/emails/mail.transport");
 const log = (0, logger_1.default)("user.controller");
 class UserController {
     signup(req, res) {
@@ -116,15 +113,25 @@ class UserController {
             const randomBytes = yield Promise.resolve(crypto_1.default.randomBytes(20));
             const randomToStrings = randomBytes.toString("hex");
             yield user_services_1.userService.setResetLink(req.body.email, randomToStrings, Date.now() * 60 * 60 * 1000);
-            const resetLink = `${process.env.FRONT_END_URL}/reset/${randomToStrings}`;
-            const body = forgot_password_1.forgotPasswordTemplate.passwordResetTemplate(req.body.email, resetLink);
-            yield mail_transport_1.mailTransport.sendEmail(req.body.email, "Reset your password", body);
+            let origin = process.env.FRONT_END_URL_DEV;
+            if (process.env.ENV === "prod") {
+                origin = process.env.FRONT_END_URL_PROD;
+            }
+            const resetLink = `${origin}/reset/${randomToStrings}`;
+            // const body: string = forgotPasswordTemplate.passwordResetTemplate(
+            //   req.body.email,
+            //   resetLink
+            // );
+            // await mailTransport.sendEmail(req.body.email, "Reset your password", body);
             // emailQueue.addEmailJob("forgotPasswordEmail", {
             //   rEmail: req.body.email,
             //   subject: "Reset your password",
             //   body,
             // });
-            res.status(http_status_codes_1.default.OK).json({ message: "Password reset email sent" });
+            res.status(http_status_codes_1.default.OK).json({
+                message: "Password reset email sent",
+                data: { link: resetLink },
+            });
         });
     }
     reset(req, res) {
@@ -138,13 +145,19 @@ class UserController {
                 });
             }
             yield user_services_1.userService.updatePassword(userExists[0]._id, req.body.password);
-            const body = reset_password_1.resetPasswordTemplate.passwordResetTemplate(userExists[0].email);
+            // const body: string = resetPasswordTemplate.passwordResetTemplate(
+            //   userExists[0].email!
+            // );
             // emailQueue.addEmailJob("resetPasswordEmail", {
             //   rEmail: userExists[0].email!,
             //   subject: "Password Reset Confirmation",
             //   body,
             // });
-            yield mail_transport_1.mailTransport.sendEmail(userExists[0].email, "Password Reset Confirmation", body);
+            // await mailTransport.sendEmail(
+            //   userExists[0].email!,
+            //   "Password Reset Confirmation",
+            //   body
+            // );
             res.status(http_status_codes_1.default.OK).json({ message: "Password change successfull" });
         });
     }
