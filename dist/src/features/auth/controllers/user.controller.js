@@ -24,7 +24,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const crypto_1 = __importDefault(require("crypto"));
+const uuid_1 = require("uuid");
 const bcryptjs_1 = require("bcryptjs");
 const mongodb_1 = require("mongodb");
 const logger_1 = __importDefault(require("../../../utils/logger"));
@@ -33,8 +33,14 @@ const decorator_1 = require("../../../decorator/decorator");
 const signin_schema_1 = require("../schema/signin.schema");
 const user_services_1 = require("../services/user.services");
 const forgot_schema_1 = require("../schema/forgot.schema");
+// import { forgotPasswordTemplate } from "../../../services/emails/template/forgot-password/forgot-password";
+// import { emailQueue } from "../../../services/queues/email.queue";
 const reset_schema_1 = require("../schema/reset.schema");
+// import { resetPasswordTemplate } from "../../../services/emails/template/reset-password/reset-password";
 const helpers_1 = require("../../../utils/helpers");
+// import { userCache } from "../../../services/redis/user.cache";
+// import { userQueue } from "../../../services/queues/user.queue";
+// import { mailTransport } from "../../../services/emails/mail.transport";
 const log = (0, logger_1.default)("user.controller");
 class UserController {
     signup(req, res) {
@@ -110,14 +116,14 @@ class UserController {
                     status: "error",
                 });
             }
-            const randomBytes = yield Promise.resolve(crypto_1.default.randomBytes(20));
-            const randomToStrings = randomBytes.toString("hex");
+            const randomToStrings = (0, uuid_1.v4)();
             yield user_services_1.userService.setResetLink(req.body.email, randomToStrings, Date.now() * 60 * 60 * 1000);
-            let origin = process.env.FRONT_END_URL_DEV;
+            // let origin: any = process.env.FRONT_END_URL_DEV;
+            let origin = process.env.FRONT_END_URL_PROD;
             if (process.env.ENV === "prod") {
                 origin = process.env.FRONT_END_URL_PROD;
             }
-            const resetLink = `${origin}/reset/${randomToStrings}`;
+            const resetLink = `${origin}/${randomToStrings}`;
             // const body: string = forgotPasswordTemplate.passwordResetTemplate(
             //   req.body.email,
             //   resetLink

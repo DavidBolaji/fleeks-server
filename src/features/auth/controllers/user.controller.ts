@@ -2,7 +2,7 @@ import Logger from "bunyan";
 import { Request, Response } from "express";
 import HTTP_STATUS from "http-status-codes";
 import jwt from "jsonwebtoken";
-import crypto from "crypto";
+import { v4 as uuidv4 } from "uuid";
 import { compare } from "bcryptjs";
 import { ObjectId } from "mongodb";
 
@@ -14,14 +14,14 @@ import { userService } from "../services/user.services";
 
 import { forgotSchema } from "../schema/forgot.schema";
 
-import { forgotPasswordTemplate } from "../../../services/emails/template/forgot-password/forgot-password";
-import { emailQueue } from "../../../services/queues/email.queue";
+// import { forgotPasswordTemplate } from "../../../services/emails/template/forgot-password/forgot-password";
+// import { emailQueue } from "../../../services/queues/email.queue";
 import { resetSchema } from "../schema/reset.schema";
-import { resetPasswordTemplate } from "../../../services/emails/template/reset-password/reset-password";
+// import { resetPasswordTemplate } from "../../../services/emails/template/reset-password/reset-password";
 import { Helpers } from "../../../utils/helpers";
-import { userCache } from "../../../services/redis/user.cache";
-import { userQueue } from "../../../services/queues/user.queue";
-import { mailTransport } from "../../../services/emails/mail.transport";
+// import { userCache } from "../../../services/redis/user.cache";
+// import { userQueue } from "../../../services/queues/user.queue";
+// import { mailTransport } from "../../../services/emails/mail.transport";
 
 const log: Logger = createLoggerCustom("user.controller");
 
@@ -116,8 +116,7 @@ export class UserController {
       });
     }
 
-    const randomBytes: Buffer = await Promise.resolve(crypto.randomBytes(20));
-    const randomToStrings: string = randomBytes.toString("hex");
+    const randomToStrings = uuidv4();
 
     await userService.setResetLink(
       req.body.email,
@@ -125,12 +124,13 @@ export class UserController {
       Date.now() * 60 * 60 * 1000
     );
 
-    let origin: any = process.env.FRONT_END_URL_DEV;
+    // let origin: any = process.env.FRONT_END_URL_DEV;
+    let origin = process.env.FRONT_END_URL_PROD;
     if (process.env.ENV === "prod") {
       origin = process.env.FRONT_END_URL_PROD;
     }
 
-    const resetLink = `${origin}/reset/${randomToStrings}`;
+    const resetLink = `${origin}/${randomToStrings}`;
     // const body: string = forgotPasswordTemplate.passwordResetTemplate(
     //   req.body.email,
     //   resetLink
