@@ -4,7 +4,7 @@
     "module": "commonjs",
     "lib": ["DOM", "ES2015"],
     "baseUrl": "../src",
-    "outDir": "./build",
+    "outDir": "dist",
     "rootDir": ".",
     "strict": true,
     "noImplicitAny": true,
@@ -19,5 +19,6 @@
     "allowSyntheticDefaultImports": true,
     "pretty": true,
     "resolveJsonModule": true
-  }
+  },
+  "include": ["./src/**/*"]
 }

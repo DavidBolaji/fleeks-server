@@ -4,12 +4,15 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "pm2 start ./build/src/app.js --attach --watch -i 2",
-    "start:dev": "node ./build/src/app.js",
+    "start": "pm2 start ./dist/src/app.js --attach --watch -i 2",
+    "start:dev": "node ./dist/src/app.js",
     "stop": "pm2 stop all",
     "delete": "pm2 delete all",
     "dev": "nodemon -r tsconfig-paths/register src/app.ts",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "build:dev": "rimraf dist && tsc",
+    "ts.check": "tsc --project tsconfig.json",
+    "add-build": "git add dist"
   },
   "keywords": [],
   "author": "",
@@ -49,6 +52,11 @@
     "swagger-stats": "^0.99.5",
     "uuid": "^9.0.0"
   },
+  "pre-commit": [
+    "ts.check",
+    "build:dev",
+    "add-build"
+  ],
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/bull": "^4.10.0",
@@ -64,6 +72,8 @@
     "@types/redis": "^4.0.11",
     "@types/redis-info": "^3.0.0",
     "@types/uuid": "^9.0.1",
+    "pre-commit": "^1.2.2",
+    "rimraf": "^5.0.1",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.6",
     "tsconfig-paths": "^4.2.0",
