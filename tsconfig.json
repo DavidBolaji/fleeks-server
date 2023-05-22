@@ -4,7 +4,7 @@
     "module": "commonjs",
     "lib": ["DOM", "ES2015"],
     "baseUrl": "../src",
-    "outDir": "dist",
+    "outDir": "./dist",
     "rootDir": ".",
     "strict": true,
     "noImplicitAny": true,
