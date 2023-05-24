@@ -1,8 +1,8 @@
 import Logger from "bunyan";
-import mongoose from "mongoose";
+
 import { redisConnection } from "../services/redis/redis.connection";
 import createLoggerCustom from "../utils/logger";
-
+import mongoose from "../services/redis/experiment";
 // import dotenv from "dotenv";
 // dotenv.config();
 

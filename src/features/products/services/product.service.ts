@@ -18,8 +18,9 @@ class ProductService {
     // await product.save();
   }
 
-  public async find(): Promise<IProductDocument[]> {
-    const product = await ProductModel.find();
+  public async find(): Promise<any> {
+    // @ts-ignore
+    const product = await ProductModel.find().cache({ key: "/product/read" });
     return product;
   }
 

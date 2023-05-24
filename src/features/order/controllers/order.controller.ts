@@ -4,6 +4,7 @@ import HTTP_STATUS from "http-status-codes";
 import { Request, Response } from "express";
 import { orderService } from "../services/order.service";
 import { joiValidation } from "../../../decorator/decorator";
+import { clearHash } from "../../../services/redis/experiment";
 
 export class OrderController {
   @joiValidation(orderSchema)
@@ -21,6 +22,9 @@ export class OrderController {
       message: `Order ${text} successfully`,
       data: { ...req.body, _id: id },
     });
+
+    clearHash(req.body.user);
+    clearHash("Order");
   }
 
   public async read(req: Request, res: Response) {
@@ -50,20 +54,6 @@ export class OrderController {
   }
 
   public async readUser(req: Request, res: Response) {
-    //check path in catch and //fetch product from cache
-    // log.info(req.url); //   /product/read
-    // const prod: [] | IUserDocument[] = await productCache.getProductFromCache(
-    //   "/product/read"
-    // );
-
-    // if in cache
-    // if (prod?.length > 0) {
-    //   log.info("entered" + prod);
-    //   return res
-    //     .status(HTTP_STATUS.OK)
-    //     .json({ message: "fetch succesfull", data: prod });
-    // }
-
     //if not in cache fetch fromm db
     const order = await orderService.findUser(req.params.id);
     // and save in catch

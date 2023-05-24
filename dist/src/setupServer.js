@@ -62,7 +62,7 @@ class FavServer {
         }
         // setup cors
         app.use((0, cors_1.default)({
-            origin,
+            origin: "*",
             credentials: true,
             optionsSuccessStatus: 200,
             methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -129,7 +129,7 @@ class FavServer {
             let redisHost = process.env.REDIS_HOST;
             const io = new socket_io_1.Server(httpServer, {
                 cors: {
-                    origin,
+                    origin: "*",
                     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
                 },
             });

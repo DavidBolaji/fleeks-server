@@ -6,8 +6,8 @@ import { productSchema } from "../schemas/product.schema";
 import { productService } from "../services/product.service";
 import createLoggerCustom from "../../../utils/logger";
 import { joiValidation } from "../../../decorator/decorator";
-import { Helpers } from "../../../utils/helpers";
 import { productCache } from "../../../services/redis/product.cache";
+import { clearHash } from "../../../services/redis/experiment";
 
 const log: Logger = createLoggerCustom("Product.controller");
 
@@ -19,39 +19,18 @@ export class ProductController {
       text = "updated";
     }
 
-    // const productId = new ObjectId();
-    const uId = Helpers.generateId();
-
     await productService.create({ ...req.body });
-
-    productCache.deleteProductFromCache("/product/read");
 
     res
       .status(HTTP_STATUS.CREATED)
-      .json({ message: `Product ${text} successfully` });
+      .json({ message: `Product ${text} successfully`, data: {} });
+
+    clearHash("/product/read");
   }
 
   public async read(req: Request, res: Response) {
-    //check path in catch and //fetch product from cache
-    //  /   /product/read
-    // const prod: [] | IUserDocument[] = await productCache.getProductFromCache(
-    //   "/product/read"
-    // );
-
-    // if in cache
-    // if (prod?.length > 0) {
-    //   log.info("entered" + prod);
-    //   return res
-    //     .status(HTTP_STATUS.OK)
-    //     .json({ message: "fetch succesfull", data: prod });
-    // }
-
-    //if not in cache fetch fromm db
     const product = await productService.find();
-    // and save in catch
-    // productCache.saveProductToCache(req.url, product);
 
-    //return it to user
     res
       .status(HTTP_STATUS.OK)
       .json({ message: "fetch succesfull", data: product });
@@ -67,6 +46,10 @@ export class ProductController {
     productService.delete(id);
     productCache.deleteProductFromCache("/product/read");
 
-    res.status(HTTP_STATUS.OK).json({ message: "Product Deleted succesfully" });
+    res
+      .status(HTTP_STATUS.OK)
+      .json({ message: "Product Deleted succesfully", data: { _id: id } });
+
+    clearHash("/product/read");
   }
 }

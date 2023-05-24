@@ -27,8 +27,8 @@ const product_schema_1 = require("../schemas/product.schema");
 const product_service_1 = require("../services/product.service");
 const logger_1 = __importDefault(require("../../../utils/logger"));
 const decorator_1 = require("../../../decorator/decorator");
-const helpers_1 = require("../../../utils/helpers");
 const product_cache_1 = require("../../../services/redis/product.cache");
+const experiment_1 = require("../../../services/redis/experiment");
 const log = (0, logger_1.default)("Product.controller");
 class ProductController {
     create(req, res) {
@@ -37,34 +37,16 @@ class ProductController {
             if (req.body._id) {
                 text = "updated";
             }
-            // const productId = new ObjectId();
-            const uId = helpers_1.Helpers.generateId();
             yield product_service_1.productService.create(Object.assign({}, req.body));
-            product_cache_1.productCache.deleteProductFromCache("/product/read");
             res
                 .status(http_status_codes_1.default.CREATED)
-                .json({ message: `Product ${text} successfully` });
+                .json({ message: `Product ${text} successfully`, data: {} });
+            (0, experiment_1.clearHash)("/product/read");
         });
     }
     read(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //check path in catch and //fetch product from cache
-            //  /   /product/read
-            // const prod: [] | IUserDocument[] = await productCache.getProductFromCache(
-            //   "/product/read"
-            // );
-            // if in cache
-            // if (prod?.length > 0) {
-            //   log.info("entered" + prod);
-            //   return res
-            //     .status(HTTP_STATUS.OK)
-            //     .json({ message: "fetch succesfull", data: prod });
-            // }
-            //if not in cache fetch fromm db
             const product = yield product_service_1.productService.find();
-            // and save in catch
-            // productCache.saveProductToCache(req.url, product);
-            //return it to user
             res
                 .status(http_status_codes_1.default.OK)
                 .json({ message: "fetch succesfull", data: product });
@@ -80,7 +62,10 @@ class ProductController {
             const { id } = req.params;
             product_service_1.productService.delete(id);
             product_cache_1.productCache.deleteProductFromCache("/product/read");
-            res.status(http_status_codes_1.default.OK).json({ message: "Product Deleted succesfully" });
+            res
+                .status(http_status_codes_1.default.OK)
+                .json({ message: "Product Deleted succesfully", data: { _id: id } });
+            (0, experiment_1.clearHash)("/product/read");
         });
     }
 }

@@ -26,6 +26,7 @@ const order_schema_1 = require("../schemas/order.schema");
 const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const order_service_1 = require("../services/order.service");
 const decorator_1 = require("../../../decorator/decorator");
+const experiment_1 = require("../../../services/redis/experiment");
 class OrderController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -41,6 +42,8 @@ class OrderController {
                 message: `Order ${text} successfully`,
                 data: Object.assign(Object.assign({}, req.body), { _id: id }),
             });
+            (0, experiment_1.clearHash)(req.body.user);
+            (0, experiment_1.clearHash)("Order");
         });
     }
     read(req, res) {
@@ -69,18 +72,6 @@ class OrderController {
     }
     readUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //check path in catch and //fetch product from cache
-            // log.info(req.url); //   /product/read
-            // const prod: [] | IUserDocument[] = await productCache.getProductFromCache(
-            //   "/product/read"
-            // );
-            // if in cache
-            // if (prod?.length > 0) {
-            //   log.info("entered" + prod);
-            //   return res
-            //     .status(HTTP_STATUS.OK)
-            //     .json({ message: "fetch succesfull", data: prod });
-            // }
             //if not in cache fetch fromm db
             const order = yield order_service_1.orderService.findUser(req.params.id);
             // and save in catch

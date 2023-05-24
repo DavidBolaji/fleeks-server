@@ -25,7 +25,8 @@ class ProductService {
     }
     find() {
         return __awaiter(this, void 0, void 0, function* () {
-            const product = yield product_model_1.ProductModel.find();
+            // @ts-ignore
+            const product = yield product_model_1.ProductModel.find().cache({ key: "/product/read" });
             return product;
         });
     }

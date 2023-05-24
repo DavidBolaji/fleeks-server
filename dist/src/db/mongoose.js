@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
 const redis_connection_1 = require("../services/redis/redis.connection");
 const logger_1 = __importDefault(require("../utils/logger"));
+const experiment_1 = __importDefault(require("../services/redis/experiment"));
 // import dotenv from "dotenv";
 // dotenv.config();
 let server = process.env.MONGODB_URI_LOCAL;
@@ -24,7 +24,7 @@ if (process.env.ENV === "prod") {
 }
 exports.default = () => {
     const connect = () => {
-        mongoose_1.default
+        experiment_1.default
             .connect(server)
             .then(() => __awaiter(void 0, void 0, void 0, function* () {
             log.info("Connected to database");
@@ -36,6 +36,6 @@ exports.default = () => {
         });
     };
     connect();
-    mongoose_1.default.connection.on("disconnected", connect);
+    experiment_1.default.connection.on("disconnected", connect);
 };
 //# sourceMappingURL=mongoose.js.map
