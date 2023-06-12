@@ -28,7 +28,7 @@ class OrderService {
   public async find(): Promise<IOrderDocument[]> {
     const order = await OrderModel.find()
       .select(
-        "_id user address email price paid delivered phone status product"
+        "_id user address email price paid delivered phone status product createdAt"
       ) // @ts-ignore
       .cache({ key: "Order" });
     return order;
@@ -37,7 +37,7 @@ class OrderService {
   public async findUser(id: string): Promise<IOrderDocument[]> {
     const order = await OrderModel.find({ user: id })
       .select(
-        "_id user address email price paid delivered phone status product"
+        "_id user address email price paid delivered phone status product createdAt"
       ) // @ts-ignore
       .cache({ key: id });
     return order;

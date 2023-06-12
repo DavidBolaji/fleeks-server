@@ -32,7 +32,7 @@ class OrderService {
     find() {
         return __awaiter(this, void 0, void 0, function* () {
             const order = yield order_model_1.OrderModel.find()
-                .select("_id user address email price paid delivered phone status product") // @ts-ignore
+                .select("_id user address email price paid delivered phone status product createdAt") // @ts-ignore
                 .cache({ key: "Order" });
             return order;
         });
@@ -40,7 +40,7 @@ class OrderService {
     findUser(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const order = yield order_model_1.OrderModel.find({ user: id })
-                .select("_id user address email price paid delivered phone status product") // @ts-ignore
+                .select("_id user address email price paid delivered phone status product createdAt") // @ts-ignore
                 .cache({ key: id });
             return order;
         });
