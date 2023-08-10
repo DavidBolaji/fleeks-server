@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start:dev": "node start ./dist/src/app.js",
+    "start:dev": "node ./dist/src/app.js",
     "start": "nodemon ./dist/src/app.js",
     "stop": "pm2 stop all",
     "delete": "pm2 delete all",
